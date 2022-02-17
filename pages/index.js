@@ -4,7 +4,8 @@ import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import Link from 'next/link'
 import { AccountContext } from '../context'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCoffee, faTrash } from '@fortawesome/free-solid-svg-icons'
 /* import contract address and contract owner address */
 import {
   contractAddress, ownerAddress
@@ -30,20 +31,26 @@ export default function Home(props) {
         {
           /* map over the posts array and render a button with the post title */
           posts.map((post, index) => (
-            <Link href={`/post/${post[2]}`} key={index}>
-              <a>
-                <div className={linkStyle}>
-                  <p className={postTitle}>{post[1]}</p>
-                  <div className={arrowContainer}>
-                    <img
-                      src='/right-arrow.svg'
-                      alt='Right arrow'
-                      className={smallArrow}
-                    />
-                  </div>
-                </div>
-              </a>
-            </Link>
+            <div className={wrapper}>
+              <div style={{ width: "calc(100% - 50px)" }}>
+
+                <Link href={`/post/${post[2]}`} key={index}>
+                  <a>
+                    <div className={linkStyle}>
+                      <p className={postTitle}>{post[1]}</p>
+                      <div className={arrowContainer}>
+                        <img
+                          src='/right-arrow.svg'
+                          alt='Right arrow'
+                          className={smallArrow}
+                        />
+                      </div>
+                    </div>
+                  </a>
+                </Link>
+              </div>
+              <button className={buttonDel}><FontAwesomeIcon icon={faTrash} /></button>
+            </div>
           ))
         }
       </div>
@@ -69,6 +76,18 @@ export async function getServerSideProps() {
   /* here we check to see the current environment variable */
   /* and render a provider based on the environment we're in */
   let provider
+  // if (typeof window !== "undefined") {
+  //   // browser code
+  //   const provider2 = new ethers.providers.Web3Provider(window.ethereum)
+  //   const { name } = await provider2.getNetwork()
+  //   console.log(name);
+  // }
+  // debugger
+  // if (window) {
+  //   debugger
+  //   const provider2 = new ethers.providers.Web3Provider(window?.ethereum)
+  // }
+  // debugger
   if (process.env.ENVIRONMENT === 'local') {
     provider = new ethers.providers.JsonRpcProvider()
   } else if (process.env.ENVIRONMENT === 'testnet') {
@@ -79,6 +98,7 @@ export async function getServerSideProps() {
 
   const contract = new ethers.Contract(contractAddress, Blog.abi, provider)
   const data = await contract.fetchPosts()
+
   return {
     props: {
       posts: JSON.parse(JSON.stringify(data))
@@ -102,7 +122,7 @@ const postTitle = css`
 
 const linkStyle = css`
   border: 1px solid #ddd;
-  margin-top: 20px;
+
   border-radius: 8px;
   display: flex;
 `
@@ -129,7 +149,18 @@ const buttonStyle = css`
   cursor: pointer;
   box-shadow: 7px 7px rgba(0, 0, 0, .1);
 `
-
+const buttonDel = css`
+  background-color: #e74c3c;
+  color: #fff;
+  outline: none;
+  border: none;
+  font-size: 20px;
+  width:50px;
+  height:50px;
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: 7px 7px rgba(231, 76, 60,.1);
+`
 const arrow = css`
   width: 35px;
   margin-left: 30px;
@@ -137,4 +168,10 @@ const arrow = css`
 
 const smallArrow = css`
   width: 25px;
+`
+const wrapper = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 20px;
 `

@@ -26,6 +26,11 @@ module.exports = {
       url: "https://rpc-mumbai.matic.today",
       accounts: ['9b4eeeb707d64510d2b7df20efaef41c9ca86f52145162b3c14a11d5cd2aceeb']
     },
+    alfajores: {
+      url: "https://alfajores-forno.celo-testnet.org",
+      accounts: ['9b4eeeb707d64510d2b7df20efaef41c9ca86f52145162b3c14a11d5cd2aceeb'],
+      chainId: 44787
+    }
     // polygon: {
     //   url: "https://polygon-rpc.com/",
     //   accounts: [process.env.pk]

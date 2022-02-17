@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { css } from '@emotion/css'
 import { ethers } from 'ethers'
@@ -39,6 +39,14 @@ function MyApp({ Component, pageProps }) {
       console.log('error:', err)
     }
   }
+  // useEffect(async () => {
+  //   const [account] = await window.ethereum.request({
+  //     method: 'eth_requestAccounts',
+  //   })
+  //   console.log(account);
+  //   setAccount(account)
+  // }, [])
+
   return <div>
     <nav className={nav}>
       <div className={header}>
