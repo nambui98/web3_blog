@@ -45,7 +45,7 @@ function MyApp({ Component, pageProps }) {
         <Link href="/">
           <a>
             <img
-              src='/vercel.svg'
+              src='/logo.svg'
               alt="React Logo"
               style={{ width: '50px' }}
             />

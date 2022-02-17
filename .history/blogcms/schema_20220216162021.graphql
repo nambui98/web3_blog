@@ -1,0 +1,14 @@
+type PostCreated @entity {
+  id: ID!
+  id: BigInt! # uint256
+  title: String! # string
+  hash: String! # string
+}
+
+type PostUpdated @entity {
+  id: ID!
+  id: BigInt! # uint256
+  title: String! # string
+  hash: String! # string
+  published: Boolean! # bool
+}
