@@ -38,7 +38,7 @@ node_modules
 coverage
 coverage.json
 typechain
-blogcms
+
 #Hardhat files
 cache
 artifacts
