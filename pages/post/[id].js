@@ -40,6 +40,7 @@ export default function Post({ post }) {
                                 </div>
                             )
                         }
+
                         {
                             /* if the post has a cover image, render it */
                             post.coverImage && (
