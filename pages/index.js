@@ -24,7 +24,27 @@ export default function Home(props) {
   async function navigate() {
     router.push('/create-post')
   }
-
+  const getId = async (hash) => {
+    let provider
+    if (process.env.NEXT_PUBLIC_ENVIRONMENT === 'local') {
+      provider = new ethers.providers.JsonRpcProvider()
+    } else if (process.env.NEXT_PUBLIC_ENVIRONMENT === 'testnet') {
+      provider = new ethers.providers.JsonRpcProvider('https://rpc-mumbai.matic.today')
+    } else {
+      provider = new ethers.providers.JsonRpcProvider('https://polygon-rpc.com/')
+    }
+    const contract = new ethers.Contract(contractAddress, Blog.abi, provider)
+    const val = await contract.fetchPost(hash)
+    const postId = val[0].toNumber()
+    return postId;
+  }
+  async function deleteRow(hash) {
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(contractAddress, Blog.abi, signer)
+    await contract.deletePost(getId(hash))
+  }
+  console.log(posts);
   return (
     <div>
       <div className={postList}>
@@ -32,7 +52,7 @@ export default function Home(props) {
           /* map over the posts array and render a button with the post title */
           posts.map((post, index) => (
             <div className={wrapper}>
-              <div style={{ width: "calc(100% - 50px)" }}>
+              <div style={{ width: account === ownerAddress ? "calc(100% - 60px)" : "100%" }}>
 
                 <Link href={`/post/${post[2]}`} key={index}>
                   <a>
@@ -49,7 +69,10 @@ export default function Home(props) {
                   </a>
                 </Link>
               </div>
-              <button className={buttonDel}><FontAwesomeIcon icon={faTrash} /></button>
+              {
+                account === ownerAddress &&
+                <button className={buttonDel} onClick={() => { deleteRow(post[2]) }}><FontAwesomeIcon icon={faTrash} /></button>
+              }
             </div>
           ))
         }
@@ -95,7 +118,7 @@ export async function getServerSideProps() {
   } else {
     provider = new ethers.providers.JsonRpcProvider('https://polygon-rpc.com/')
   }
-
+  debugger
   const contract = new ethers.Contract(contractAddress, Blog.abi, provider)
   const data = await contract.fetchPosts()
 

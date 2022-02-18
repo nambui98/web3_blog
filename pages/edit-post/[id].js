@@ -84,6 +84,7 @@ export default function Post() {
                 /* editing state will allow the user to toggle between */
                 /*  a markdown editor and a markdown renderer */
             }
+
             {
                 editing && (
                     <div>

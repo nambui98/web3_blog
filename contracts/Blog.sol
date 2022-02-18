@@ -22,11 +22,11 @@ contract Blog {
     /* here we create lookups for posts by id and posts by ipfs hash */
     mapping(uint => Post) private idToPost;
     mapping(string => Post) private hashToPost;
-
     /* events facilitate communication between smart contractsand their user interfaces  */
     /* i.e. we can create listeners for events in the client and also use them in The Graph  */
     event PostCreated(uint id, string title, string hash);
     event PostUpdated(uint id, string title, string hash, bool published);
+    event PostDelete(uint id);
 
     /* when the blog is deployed, give it a name */
     /* also set the creator as the owner of the contract */
@@ -63,7 +63,14 @@ contract Blog {
         hashToPost[hash] = post;
         emit PostCreated(postId, title, hash);
     }
-
+    /* delete a new post */
+    function deletePost(uint postId) public onlyOwner {
+        // Post storage post = idToPost[postId];
+        // Post memory post = hashToPost[hash];
+        // uint postId = post.id;
+        delete idToPost[postId];
+        emit PostDelete(postId);
+    }
     /* updates an existing post */
     function updatePost(uint postId, string memory title, string memory hash, bool published) public onlyOwner {
         Post storage post =  idToPost[postId];
@@ -78,14 +85,21 @@ contract Blog {
     /* fetches all posts */
     function fetchPosts() public view returns (Post[] memory) {
         uint itemCount = _postIds.current();
+         uint lengthArr = 0;
         uint currentIndex = 0;
+         for (uint i = 1; i < itemCount+1; i++) {
+          if (idToPost[i].published==true && idToPost[i].id!=0) {
+           lengthArr+=1;
+          } 
+        }
 
-        Post[] memory posts = new Post[](itemCount);
-        for (uint i = 0; i < itemCount; i++) {
-            uint currentId = i + 1;
-            Post storage currentItem = idToPost[currentId];
+        Post[] memory posts = new Post[](lengthArr);
+        for (uint i = 1; i < itemCount+1; i++) {
+          if (idToPost[i].published) {    
+            Post storage currentItem = idToPost[i];
             posts[currentIndex] = currentItem;
             currentIndex += 1;
+          } 
         }
         return posts;
     }
