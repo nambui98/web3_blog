@@ -52,15 +52,6 @@ function MyApp({ Component, pageProps }) {
       <div className={header}>
         <Link href="/">
           <a>
-            <img
-              src='/vercel.svg'
-              alt="React Logo"
-              style={{ width: '50px' }}
-            />
-          </a>
-        </Link>
-        <Link href="/">
-          <a>
             <div className={titleContainer}>
               <h2 className={title}>Full Stack</h2>
               <p className={description}>WEB3</p>
