@@ -172,6 +172,7 @@ const contentContainer = css`
   border-left: 1px solid #e7e7e7;
   border-right: 1px solid #e7e7e7;
   & img {
+    width: 100%;
     max-width: 900px;
   }
 `
