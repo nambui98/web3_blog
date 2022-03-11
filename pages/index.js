@@ -52,7 +52,7 @@ export default function Home(props) {
           /* map over the posts array and render a button with the post title */
           posts.map((post, index) => (
             <div className={wrapper}>
-              <div style={{ width: account === ownerAddress ? "calc(100% - 60px)" : "100%" }}>
+              <div className={item} style={{ width: account === ownerAddress ? "calc(100% - 60px)" : "100%" }}>
 
                 <Link href={`/post/${post[2]}`} key={index}>
                   <a>
@@ -197,4 +197,10 @@ const wrapper = css`
   justify-content: space-between;
   align-items: flex-start;
   margin-top: 20px;
+  
+`
+const item = css`
+  background: linear-gradient(90deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%); 
+  border-radius: 10px;
+  color: white;
 `

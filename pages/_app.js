@@ -53,8 +53,8 @@ function MyApp({ Component, pageProps }) {
         <Link href="/">
           <a>
             <div className={titleContainer}>
-              <h2 className={title}>Full Stack</h2>
-              <p className={description}>WEB3</p>
+              <h2 className={title}>Collect Blog</h2>
+              <p className={description}>WEB3 nambv</p>
             </div>
           </a>
         </Link>
@@ -69,24 +69,16 @@ function MyApp({ Component, pageProps }) {
           account && <p className={accountInfo}>{account}</p>
         }
       </div>
-      <div className={linkContainer}>
-        <Link href="/" >
-          <a className={link}>
-            Home
-          </a>
-        </Link>
-        {
-          /* if the signed in user is the contract owner, we */
-          /* show the nav link to create a new post */
-          (account === ownerAddress) && (
-            <Link href="/create-post">
-              <a className={link}>
-                Create Post
-              </a>
-            </Link>
-          )
-        }
-      </div>
+      {
+        (account === ownerAddress) &&
+        <div className={linkContainer}>
+          <Link href="/create-post">
+            <a className={link}>
+              Create Post
+            </a>
+          </Link>
+        </div>
+      }
     </nav>
     <div className={container}>
       <AccountContext.Provider value={account}>
@@ -105,6 +97,7 @@ const accountInfo = css`
 
 const container = css`
   padding: 40px;
+  padding-top:0;
 `
 
 const linkContainer = css`
@@ -120,11 +113,13 @@ const header = css`
   display: flex;
   border-bottom: 1px solid rgba(0, 0, 0, .075);
   padding: 20px 30px;
+  background: rgb(34,193,195);
+background: linear-gradient(90deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%); 
 `
 
 const description = css`
   margin: 0;
-  color: #999999;
+  color: #fff;
 `
 
 const titleContainer = css`
@@ -135,8 +130,10 @@ const titleContainer = css`
 
 const title = css`
   margin-left: 30px;
-  font-weight: 500;
+  font-weight: 700;
   margin: 0;
+  color: white;
+
 `
 
 const buttonContainer = css`
